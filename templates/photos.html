@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>k29photo - Προβολή Φωτογραφιών</title>
+</head>
+
+<body>
+    <h1>
+        {% if current_view == 'mine' %}
+        Οι Φωτογραφίες μου
+        {% else %}
+        Δημόσιες Φωτογραφίες
+        {% endif %}
+    </h1>
+
+    <a href="{{ url_for('home') }}">Επιστροφή στην Αρχική</a>
+    <br><br>
+
+    <div>
+        <a href="{{ url_for('view_photos', view='all') }}">
+            {% if current_view == 'all' %}<b>Όλες οι Φωτογραφίες</b>{% else %}Όλες οι Φωτογραφίες{% endif %}
+        </a> |
+        <a href="{{ url_for('view_photos', view='mine') }}">
+            {% if current_view == 'mine' %}<b>Μόνο οι Δικές μου</b>{% else %}Μόνο οι Δικές μου{% endif %}
+        </a>
+    </div>
+
+    <div
+        style="margin-top: 15px; margin-bottom: 15px; padding: 10px; background-color: #f0f0f0; border-radius: 5px; display: inline-block;">
+        <form action="{{ url_for('search_comments') }}" method="GET">
+            <label for="search_query"><strong>Αναζήτηση στα Σχόλια:</strong></label>
+            <input type="text" id="search_query" name="query" placeholder="Ακριβές κείμενο..." required>
+            <button type="submit">Εύρεση Χρηστών</button>
+        </form>
+    </div>
+    <hr>
+
+    {% if photos %}
+    {% for photo in photos %}
+    <div>
+        <img src="data:image/jpeg;base64,{{ photo.image }}" alt="Photo"
+            style="width: 300px; height: 300px; object-fit: cover;">
+
+        <p><strong>Λεζάντα:</strong> {{ photo.caption }}</p>
+        <div>
+            <span><strong>Likes:</strong> {{ photo.likers|length }}</span>
+
+            {% if photo.likers %}
+            <span style="font-size: 0.9em; margin-left: 10px;">(Από: {{ photo.likers | join(', ') }})</span>
+            {% endif %}
+
+            {% if session.get('user_id') %}
+            <form action="{{ url_for('add_like') }}" method="POST" style="display: inline-block; margin-left: 10px;">
+                <input type="hidden" name="photo_id" value="{{ photo.photo_id }}">
+                <button type="submit">Like</button>
+            </form>
+            {% endif %}
+        </div>
+
+        <h4>Σχόλια:</h4>
+        <ul>
+            {% for comment in photo.comments %}
+            <li><strong>{{ comment.author }}:</strong> {{ comment.text }}</li>
+            {% else %}
+            <li>Κανένα σχόλιο ακόμα.</li>
+            {% endfor %}
+        </ul>
+
+        <form action="{{ url_for('add_comment') }}" method="POST" style="margin-top: 10px;">
+            <input type="hidden" name="photo_id" value="{{ photo.photo_id }}">
+            <input type="hidden" name="owner_id" value="{{ photo.owner_id }}">
+
+            <input type="text" name="comment_text" placeholder="Γράψε ένα σχόλιο..." required>
+            <button type="submit">Αποστολή</button>
+        </form>
+
+        {% if current_view == 'mine' %}
+        <form action="{{ url_for('delete_photo', photo_id=photo.photo_id) }}" method="POST" style="display:inline;">
+            <button type="submit"
+                onclick="return confirm('Είστε σίγουροι ότι θέλετε να διαγράψετε αυτή τη φωτογραφία;')">
+                Διαγραφή Φωτογραφίας
+            </button>
+        </form>
+        {% endif %}
+
+    </div>
+    <hr>
+    {% endfor %}
+    {% else %}
+    <p>Δεν βρέθηκαν φωτογραφίες.</p>
+    {% endif %}
+
+</body>
+
+</html>

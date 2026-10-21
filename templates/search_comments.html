@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>k29photo - Αποτελέσματα Αναζήτησης</title>
+</head>
+
+<body>
+    <h1>Αποτελέσματα Αναζήτησης Σχολίων</h1>
+
+    <a href="{{ url_for('view_photos', view='all') }}">Επιστροφή στις Φωτογραφίες</a>
+    <br><br>
+
+    <p>Αναζητήσατε για το ακριβές κείμενο: <strong>"{{ query }}"</strong></p>
+
+    <hr>
+
+    {% if results %}
+    <h3>Χρήστες που βρέθηκαν:</h3>
+    <table border="1" cellpadding="8" style="border-collapse: collapse; text-align: left;">
+        <thead>
+            <tr style="background-color: #f0f0f0;">
+                <th>Όνομα</th>
+                <th>Επίθετο</th>
+                <th>Αριθμός Σχολίων</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in results %}
+            <tr>
+                <td>{{ row[0] }}</td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>Δεν βρέθηκαν χρήστες που να έχουν κάνει σχόλιο με ακριβώς αυτό το κείμενο.</p>
+    {% endif %}
+
+</body>
+
+</html>

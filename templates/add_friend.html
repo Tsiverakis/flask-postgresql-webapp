@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Add Friend</title>
+</head>
+
+<body>
+    <h2>Αναζήτηση Χρηστών</h2>
+    <form action="/home/add_friend" method="GET">
+        <label for="search_user">Όνομα ή Επίθετο:</label>
+        <input type="text" id="search_user" name="search_user" placeholder="π.χ. Γιάννης">
+        <button type="submit">Αναζήτηση</button>
+    </form>
+
+    {% if search_results %}
+        <h3>Βρέθηκαν οι εξής χρήστες:</h3>
+        <ul style="list-style-type: none; padding: 0;">
+            {% for u in search_results %}
+                <li style="margin-bottom: 5px;">
+                    <strong>ID: {{ u[0] }}</strong> - {{ u[1] }} {{ u[2] }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% elif search_query %}
+        <p style="color: red;">Δεν βρέθηκε χρήστης με το όνομα/επίθετο "{{ search_query }}".</p>
+    {% endif %}
+
+    <hr>
+
+    <h2>Προσθήκη Νέου Φίλου</h2>
+
+    <form action="/home/add_friend" method="POST">
+        <label for="friend_id">Εισάγετε το ID του χρήστη:</label><br><br>
+        <input type="text" id="friend_id" name="friend_id" required placeholder="π.χ. 5">
+        <br><br>
+        <button type="submit">Προσθήκη Φίλου</button>
+    </form>
+
+    <br>
+    <a href="/home">Επιστροφή στο Home</a>
+
+</body>
+
+</html>

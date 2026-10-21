@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>k29photo - Προβολή Albums</title>
+</head>
+
+<body>
+    <h1>
+        {% if current_view == 'mine' %}
+        Τα Albums μου
+        {% else %}
+        Όλα τα Albums
+        {% endif %}
+    </h1>
+
+    <a href="{{ url_for('home') }}">Επιστροφή στην Αρχική</a>
+    <br><br>
+
+    <div>
+        <a href="{{ url_for('view_albums', view='all') }}">
+            {% if current_view == 'all' %}<b>Όλα τα Albums</b>{% else %}Όλα τα Albums{% endif %}
+        </a> |
+        <a href="{{ url_for('view_albums', view='mine') }}">
+            {% if current_view == 'mine' %}<b>Μόνο τα Δικά μου</b>{% else %}Μόνο τα Δικά μου{% endif %}
+        </a>
+    </div>
+
+    <hr>
+
+    {% if albums %}
+    <ul>
+        {% for album in albums %}
+        <li>
+            <strong>Όνομα:</strong> {{ album[1] }} <br>
+            <strong>Ημερομηνία:</strong> {{ album[2] }} <br>
+            <a href="{{ url_for('album_photos', album_id=album[0]) }}">Προβολή Φωτογραφιών</a>
+
+            {% if current_view == 'mine' %}
+            <form action="{{ url_for('delete_album', album_id=album[0]) }}" method="POST"
+                style="display:inline; margin-left: 10px;">
+                <button type="submit"
+                    onclick="return confirm('ΠΡΟΣΟΧΗ: Θέλετε να διαγράψετε αυτό το άλμπουμ; Θα διαγραφούν και όλες οι φωτογραφίες του!')">
+                    Διαγραφή Άλμπουμ
+                </button>
+            </form>
+            {% endif %}
+
+        </li>
+        <br>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Δεν βρέθηκαν albums.</p>
+    {% endif %}
+
+</body>
+
+</html>

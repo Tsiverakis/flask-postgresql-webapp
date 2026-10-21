@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="el">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Λίστα Ετικετών & Αναζήτηση</title>
+    <style>
+        /* Κρατάμε μόνο το CSS που είναι υπεύθυνο για τη δομή (ώστε η αναζήτηση να πάει δεξιά) */
+        .container {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+        }
+
+        .sidebar {
+            width: 250px;
+        }
+
+        .main-content {
+            flex-grow: 1;
+        }
+
+        /* Κρατάμε το grid για να μπαίνουν οι φωτογραφίες όμορφα η μία δίπλα στην άλλη */
+        .photo-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Ετικέτες (Tags)</h1>
+
+    <div class="container">
+
+        <div class="sidebar">
+            <h2>Top Ετικέτες</h2>
+            <ul>
+                {% for p_tag in popular_tags %}
+                <li>
+                    <a href="{{ url_for('tag', tag_name=p_tag[0]) }}">#{{ p_tag[0] }}</a>
+                    ({{ p_tag[1] }} φωτογραφίες)
+                </li>
+                {% endfor %}
+            </ul>
+
+            <h2>Όλες οι Ετικέτες</h2>
+            <ul>
+                {% for tag in all_tags %}
+                <li>
+                    <a href="{{ url_for('tag', tag_name=tag[0]) }}">{{ tag[0] }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <h2>Αναζήτηση Φωτογραφιών</h2>
+            <form action="{{ url_for('tags') }}" method="GET">
+                <input type="text" name="query" value="{{ query }}" required>
+                <button type="submit">Αναζήτηση</button>
+                {% if query %}
+                <a href="{{ url_for('tags') }}">Καθαρισμός</a>
+                {% endif %}
+            </form>
+
+            <br>
+
+            {% if query %}
+            <h3>Αποτελέσματα για: "{{ query }}"</h3>
+
+            {% if search_photos %}
+            <p>Βρέθηκαν {{ search_photos|length }} φωτογραφίες.</p>
+            <div class="photo-grid">
+                {% for photo in search_photos %}
+                <img src="data:image/jpeg;base64,{{ photo }}" width="300" alt="Φωτογραφία">
+                {% endfor %}
+            </div>
+            {% else %}
+            <p>Δεν βρέθηκαν φωτογραφίες που να περιέχουν όλες τις ετικέτες που ζητήσατε.</p>
+            {% endif %}
+            {% endif %}
+        </div>
+
+    </div>
+
+    <br><br>
+    <a href="/">Επιστροφή στην Αρχική Σελίδα</a>
+</body>
+
+</html>

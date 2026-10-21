@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>Αποτελέσματα Αναζήτησης</title>
+</head>
+<body>
+    <h1>Αποτελέσματα αναζήτησης για: "{{ query }}"</h1>
+
+    {% if photos %}
+        <p>Βρέθηκαν {{ photos|length }} φωτογραφίες.</p>
+        {% for photo in photos %}
+            <div>
+                <img src="data:image/jpeg;base64,{{ photo }}" alt="Φωτογραφία">
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Δεν βρέθηκαν φωτογραφίες που να περιέχουν όλες τις ετικέτες που ζητήσατε.</p>
+    {% endif %}
+
+    <br>
+    <a href="/home/tags">Πίσω στις Ετικέτες</a>
+</body>
+</html>

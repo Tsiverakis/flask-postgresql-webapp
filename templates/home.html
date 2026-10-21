@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>k29photo - Home</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            padding: 20px;
+            position: relative;
+        }
+
+        h1 {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 15px;
+            margin: 0;
+        }
+
+        /* Grouped the top-right buttons into a container */
+        .auth-buttons {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Πρόσθεσε αυτή την κλάση για το κείμενο του χρήστη */
+        .user-badge {
+            margin-right: 15px;
+            font-weight: bold;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .btn {
+            display: inline-block;
+            /* Αυτό κρατάει το σχήμα του κουμπιού σωστό */
+            margin-bottom: 10px;
+            padding: 5px 15px;
+            text-decoration: none;
+            color: black;
+            border: 1px solid black;
+            background-color: #f0f0f0;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .btn:hover {
+            background-color: #e0e0e0;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-top: 80px;
+            /* Pushed down so it doesn't overlap title */
+        }
+
+        .friend-list-sidebar {
+            width: 250px;
+            border: 1px solid black;
+            padding: 10px;
+            height: fit-content;
+            margin-top: 80px;
+        }
+
+        .friend-list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-container {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .search-container input {
+            width: 90%;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>k29photo</h1>
+
+        <div class="auth-buttons">
+            {% if session.get('user_id') %}
+            <span class="user-badge">{{ current_user_name }}#{{ session.get('user_id') }}</span>
+            <a href="{{ url_for('logout') }}" class="btn">Log out</a>
+            {% else %}
+            <a href="{{ url_for('login') }}" class="btn">Log in</a>
+            <a href="{{ url_for('sign_up') }}" class="btn">Sign up</a>
+            {% endif %}
+        </div>
+
+        <div class="main-content">
+            {% if session.get('user_id') %}
+            <h2>Welcome back, {{ current_user_name }}!</h2>
+            {% else %}
+            <h2>Welcome to k29photo! Explore the public feed.</h2>
+            {% endif %}
+            <div style="margin-top: 20px; margin-bottom: 20px;">
+                <a href="{{ url_for('view_photos') }}" class="btn">Προβολή Όλων των Φωτογραφιών</a>
+                <a href="{{ url_for('view_albums') }}" class="btn">Προβολή Όλων των Albums</a>
+                <a href="{{ url_for('tags') }}" class="btn">Όλα τα Tags</a>
+
+                {% if session.get('user_id') %}
+                <a href="{{ url_for('create_album') }}" class="btn">Δημιουργία Άλμπουμ</a>
+                <a href="{{ url_for('create_photo') }}" class="btn">Ανέβασμα Φωτογραφίας</a>
+                {% endif %}
+            </div>
+            <div class="top-contributors"
+                style="margin-top: 40px; padding: 15px; border: 1px solid #ccc; width: 300px; background-color: #f9f9f9;">
+                <h3>Top 10 Συνεισφέροντες</h3>
+                {% if top_users %}
+                <ol style="margin-top: 10px; padding-left: 20px;">
+                    {% for user in top_users %}
+                    <li style="margin-bottom: 5px;">
+                        <strong>{{ user[0] }} {{ user[1] }}</strong>
+                        <span style="color: gray; font-size: 0.9em;">(Σκορ: {{ user[2] }})</span>
+                    </li>
+                    {% endfor %}
+                </ol>
+                {% else %}
+                <p style="color: gray;">Δεν υπάρχουν ακόμα αρκετά δεδομένα.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if session.get('user_id') %}
+        <div class="friend-list-sidebar">
+            <div class="friend-list-header">
+                <h3>Friends</h3>
+                <a href="{{ url_for('add_friend') }}">
+                    <button type="button">+</button>
+                </a>
+            </div>
+
+            <div class="search-container">
+                <form method="GET" action="{{ url_for('home') }}">
+                    <div style="display: flex;">
+                        <input type="text" name="friend_search" placeholder="Search..."
+                            value="{{ request.args.get('friend_search', '') }}">
+                        <button type="submit" style="margin-left: 5px;">Αναζήτηση</button>
+                    </div>
+
+                    {% if request.args.get('friend_search') %}
+                    <div style="margin-top: 5px; text-align: right;">
+                        <a href="{{ url_for('home') }}">
+                            <button type="button">Καθαρισμός</button>
+                        </a>
+                    </div>
+                    {% endif %}
+                </form>
+            </div>
+
+            <ul class="friends-ul">
+                {% for friend in friends %}
+                <li class="friend-item">
+                    {{ friend[0] }} {{ friend[1] }}
+                </li>
+                {% else %}
+                <li class="no-friends-msg">Δεν υπάρχουν φίλοι ακόμα.</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+
+</body>
+
+</html>

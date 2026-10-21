@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="el">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Δημιουργία Άλμπουμ</title>
+</head>
+
+<body>
+    <h2>Δημιουργία Νέου Άλμπουμ</h2>
+
+    <form action="/home/create_album" method="POST">
+
+        <label for="name">Όνομα Άλμπουμ:</label>
+        <input type="text" id="name" name="name" required placeholder="π.χ. Διακοπές 2026">
+
+        <br><br>
+
+        <button type="submit">Δημιουργία</button>
+    </form>
+
+    <br>
+    <a href="/home">Επιστροφή στην Αρχική</a>
+</body>
+
+</html>

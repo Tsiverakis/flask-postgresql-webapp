@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>k29photo - {{ album_name }}</title>
+</head>
+
+<body>
+    <h1>Φωτογραφίες στο Album: {{ album_name }}</h1>
+
+    <a href="{{ url_for('view_albums') }}">Επιστροφή στα Albums</a>
+    <hr>
+
+    {% if photos %}
+    {% for photo in photos %}
+    <div>
+        <p><strong>Λεζάντα:</strong> {{ photo[1] }}</p>
+        <img src="data:image/jpeg;base64,{{ photo[2] }}" alt="Φωτογραφία" width="300">
+    </div>
+    <hr>
+    {% endfor %}
+    {% else %}
+    <p>Το album είναι άδειο. Δεν υπάρχουν φωτογραφίες εδώ.</p>
+    {% endif %}
+
+</body>
+
+</html>

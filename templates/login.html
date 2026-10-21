@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>k29photo - Welcome</title>
+</head>
+
+<body>
+
+    <h1>Welcome to k29photo</h1>
+    <p>Please log in or sign up to view your feed.</p>
+
+    <div style="border: 1px solid black; padding: 20px; width: 300px; margin-bottom: 20px;">
+        <h3>Log In</h3>
+        <form action="{{ url_for('login') }}" method="POST">
+            <p>
+                <label for="email">Email:</label><br>
+                <input type="text" id="email" name="email" required>
+            </p>
+            <p>
+                <label for="password">Password:</label><br>
+                <input type="password" id="password" name="password" required>
+            </p>
+            <button type="submit">Log in</button>
+        </form>
+    </div>
+
+    <div>
+        <p>Don't have an account?</p>
+        <form action="{{ url_for('sign_up') }}" method="GET">
+            <button type="submit">Sign up</button>
+        </form>
+    </div>
+
+</body>
+
+</html>

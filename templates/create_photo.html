@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Ανέβασμα Φωτογραφίας</title>
+</head>
+
+<body>
+    <h2>Ανέβασμα νέας Φωτογραφίας</h2>
+
+    <form action="/home/create_photo" method="POST" enctype="multipart/form-data">
+
+        <label for="album_id">Επιλογή Άλμπουμ:</label>
+        <select name="album_id" id="album_id" required>
+            <option value="" disabled selected>-- Επιλέξτε Άλμπουμ --</option>
+
+            {% for album in albums %}
+            <option value="{{ album[0] }}">{{ album[1] }}</option>
+            {% endfor %}
+        </select>
+
+        <br><br>
+
+        <label for="caption">Λεζάντα (Προαιρετικά):</label>
+        <input type="text" name="caption" id="caption">
+
+        <br><br>
+
+        <label for="tags">Ετικέτες (Προαιρετικά):</label><br>
+        <small>Χωρίστε τις ετικέτες με κενό (π.χ. διακοπές θάλασσα friends)</small><br>
+        <input type="text" name="tags" id="tags">
+
+        <br><br>
+        <label for="photo_data">Αρχείο Φωτογραφίας:</label>
+        <input type="file" name="photo_data" id="photo_data" accept="image/*" required>
+
+        <br><br>
+
+        <button type="submit">Ανέβασμα</button>
+    </form>
+</body>
+
+</html>

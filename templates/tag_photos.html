@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="el">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Φωτογραφίες: #{{ tag_name }}</title>
+</head>
+
+<body>
+    <h1>Φωτογραφίες με την ετικέτα: #{{ tag_name }}</h1>
+
+    <div style="margin-bottom: 20px; padding: 10px; background-color: #f0f0f0;">
+        <strong>Προβολή:</strong>
+
+        {% if view == 'mine' %}
+        <span style="font-weight: bold;">View My Photos</span> |
+        <a href="{{ url_for('tag', tag_name=tag_name, view='all') }}">View All Photos</a>
+        {% else %}
+        <a href="{{ url_for('tag', tag_name=tag_name, view='mine') }}">View My Photos</a> |
+        <span style="font-weight: bold;">View All Photos</span>
+        {% endif %}
+    </div>
+
+    <div>
+        {% if photos %}
+        {% for photo in photos %}
+        <div style="margin-bottom: 30px;">
+            <img src="data:image/jpeg;base64,{{ photo }}" width="400" alt="Φωτογραφία">
+        </div>
+        {% endfor %}
+        {% else %}
+        <p>Δεν βρέθηκαν φωτογραφίες για αυτή την ετικέτα στην τρέχουσα προβολή.</p>
+        {% endif %}
+    </div>
+
+    <br>
+    <a href="/home/tags">Πίσω στις Ετικέτες</a>
+</body>
+
+</html>

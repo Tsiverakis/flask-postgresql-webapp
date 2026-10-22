@@ -18,7 +18,7 @@ def get_db_connection():
         host="localhost",
         database="k29photo",
         user="postgres",
-        password="Intelect123"
+        password="Enter your database password here"
     )
     return conn
 # ----------------------
@@ -871,4 +871,4 @@ def search_comments():
 
 
 if __name__ == '__main__':
-    app.run(host="localhost", port=80, debug=True)
+    app.run(host="localhost", port=5000, debug=True)

@@ -1,105 +1,241 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>k29photo - Home</title>
     <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-main: #ffffff;
+            --text-muted: #b3b3b3;
+            --accent-color: #3498db;
+            --accent-hover: #2980b9;
+            --input-bg: #2d2d2d;
+            --border-color: #3f3f3f;
+        }
+
         body {
             margin: 0;
             padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
         }
 
-        .container {
+        /* Header Section */
+        .header {
             display: flex;
-            padding: 20px;
-            position: relative;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
-        h1 {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            top: 15px;
+        .header h1 {
             margin: 0;
+            font-size: 24px;
+            letter-spacing: 1px;
+            color: var(--text-main);
+            font-weight: 600;
         }
 
-        /* Grouped the top-right buttons into a container */
         .auth-buttons {
-            position: absolute;
-            top: 20px;
-            right: 20px;
             display: flex;
             align-items: center;
+            gap: 15px;
         }
 
-        /* Πρόσθεσε αυτή την κλάση για το κείμενο του χρήστη */
         .user-badge {
-            margin-right: 15px;
-            font-weight: bold;
+            font-weight: 600;
             font-size: 16px;
-            color: #333;
+            color: var(--text-muted);
         }
 
-        .btn {
-            display: inline-block;
-            /* Αυτό κρατάει το σχήμα του κουμπιού σωστό */
-            margin-bottom: 10px;
-            padding: 5px 15px;
-            text-decoration: none;
-            color: black;
-            border: 1px solid black;
-            background-color: #f0f0f0;
-            cursor: pointer;
-            margin-left: 10px;
-        }
-
-        .btn:hover {
-            background-color: #e0e0e0;
+        /* Main Layout */
+        .container {
+            display: flex;
+            gap: 30px;
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: flex-start;
         }
 
         .main-content {
             flex: 1;
-            margin-top: 80px;
-            /* Pushed down so it doesn't overlap title */
         }
 
+        .main-content h2 {
+            margin-top: 0;
+            font-weight: 600;
+            margin-bottom: 30px;
+            font-size: 22px;
+        }
+
+        /* Buttons */
+        .btn, button {
+            display: inline-block;
+            padding: 10px 18px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn:hover, button:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        /* Cards (Top Contributors & Sidebar) */
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-color);
+        }
+
+        /* Top Contributors */
+        .top-contributors {
+            max-width: 400px;
+        }
+
+        .top-contributors h3 {
+            margin-top: 0;
+            color: var(--accent-color);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .top-contributors ol {
+            padding-left: 20px;
+            margin: 0;
+            color: var(--text-muted);
+        }
+
+        .top-contributors li {
+            margin-bottom: 10px;
+            color: var(--text-main);
+        }
+
+        .top-contributors span {
+            color: var(--text-muted);
+            font-size: 0.9em;
+        }
+
+        /* Sidebar (Friends) */
         .friend-list-sidebar {
-            width: 250px;
-            border: 1px solid black;
-            padding: 10px;
-            height: fit-content;
-            margin-top: 80px;
+            width: 300px;
+            flex-shrink: 0;
         }
 
         .friend-list-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .friend-list-header h3 {
+            margin: 0;
+            color: var(--accent-color);
+            font-size: 18px;
+        }
+        
+        .friend-list-header button {
+            padding: 4px 12px;
+            font-size: 18px;
+            line-height: 1;
         }
 
         .search-container {
+            margin-bottom: 20px;
+        }
+
+        .search-container .search-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background-color: var(--input-bg);
+            color: var(--text-main);
+            font-size: 14px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        
+        .clear-btn {
+            background-color: transparent;
+            border: 1px solid var(--text-muted);
+            color: var(--text-muted);
             margin-top: 10px;
-            margin-bottom: 10px;
+            width: 100%;
+        }
+        
+        .clear-btn:hover {
+            background-color: rgba(255,255,255,0.05);
         }
 
-        .search-container input {
-            width: 90%;
-        }
-
-        ul {
+        .friends-ul {
             list-style-type: none;
             padding: 0;
             margin: 0;
         }
+
+        .friend-item {
+            padding: 12px;
+            background-color: var(--input-bg);
+            border-radius: 6px;
+            margin-bottom: 8px;
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+        }
+
+        .no-friends-msg, .no-data-msg {
+            color: var(--text-muted);
+            font-style: italic;
+            text-align: center;
+            padding: 15px 0;
+        }
     </style>
 </head>
-
 <body>
 
-    <div class="container">
+    <!-- Header Section -->
+    <div class="header">
         <h1>k29photo</h1>
-
         <div class="auth-buttons">
             {% if session.get('user_id') %}
             <span class="user-badge">{{ current_user_name }}#{{ session.get('user_id') }}</span>
@@ -109,14 +245,20 @@
             <a href="{{ url_for('sign_up') }}" class="btn">Sign up</a>
             {% endif %}
         </div>
+    </div>
 
+    <!-- Main Layout -->
+    <div class="container">
+        
+        <!-- Left/Center Content -->
         <div class="main-content">
             {% if session.get('user_id') %}
             <h2>Welcome back, {{ current_user_name }}!</h2>
             {% else %}
             <h2>Welcome to k29photo! Explore the public feed.</h2>
             {% endif %}
-            <div style="margin-top: 20px; margin-bottom: 20px;">
+            
+            <div class="action-buttons">
                 <a href="{{ url_for('view_photos') }}" class="btn">Προβολή Όλων των Φωτογραφιών</a>
                 <a href="{{ url_for('view_albums') }}" class="btn">Προβολή Όλων των Albums</a>
                 <a href="{{ url_for('tags') }}" class="btn">Όλα τα Tags</a>
@@ -126,47 +268,46 @@
                 <a href="{{ url_for('create_photo') }}" class="btn">Ανέβασμα Φωτογραφίας</a>
                 {% endif %}
             </div>
-            <div class="top-contributors"
-                style="margin-top: 40px; padding: 15px; border: 1px solid #ccc; width: 300px; background-color: #f9f9f9;">
+
+            <div class="card top-contributors">
                 <h3>Top 10 Συνεισφέροντες</h3>
                 {% if top_users %}
-                <ol style="margin-top: 10px; padding-left: 20px;">
+                <ol>
                     {% for user in top_users %}
-                    <li style="margin-bottom: 5px;">
+                    <li>
                         <strong>{{ user[0] }} {{ user[1] }}</strong>
-                        <span style="color: gray; font-size: 0.9em;">(Σκορ: {{ user[2] }})</span>
+                        <span>(Σκορ: {{ user[2] }})</span>
                     </li>
                     {% endfor %}
                 </ol>
                 {% else %}
-                <p style="color: gray;">Δεν υπάρχουν ακόμα αρκετά δεδομένα.</p>
+                <p class="no-data-msg">Δεν υπάρχουν ακόμα αρκετά δεδομένα.</p>
                 {% endif %}
             </div>
         </div>
 
+        <!-- Right Sidebar (Friends) -->
         {% if session.get('user_id') %}
-        <div class="friend-list-sidebar">
+        <div class="card friend-list-sidebar">
             <div class="friend-list-header">
                 <h3>Friends</h3>
                 <a href="{{ url_for('add_friend') }}">
-                    <button type="button">+</button>
+                    <button type="button" title="Add Friend">+</button>
                 </a>
             </div>
 
             <div class="search-container">
                 <form method="GET" action="{{ url_for('home') }}">
-                    <div style="display: flex;">
+                    <div class="search-row">
                         <input type="text" name="friend_search" placeholder="Search..."
                             value="{{ request.args.get('friend_search', '') }}">
-                        <button type="submit" style="margin-left: 5px;">Αναζήτηση</button>
+                        <button type="submit">Αναζήτηση</button>
                     </div>
 
                     {% if request.args.get('friend_search') %}
-                    <div style="margin-top: 5px; text-align: right;">
-                        <a href="{{ url_for('home') }}">
-                            <button type="button">Καθαρισμός</button>
-                        </a>
-                    </div>
+                    <a href="{{ url_for('home') }}" style="text-decoration: none;">
+                        <button type="button" class="clear-btn">Καθαρισμός</button>
+                    </a>
                     {% endif %}
                 </form>
             </div>
@@ -182,8 +323,8 @@
             </ul>
         </div>
         {% endif %}
+        
     </div>
 
 </body>
-
 </html>
